@@ -7,6 +7,30 @@ import (
 
 var ch chan interface{}
 
+// Example of compiler error
+//writeStream := make(chan<- interface{})
+//readStream := make(<-chan interface{})
+//<-writeStream
+//readStream <- struct{}{}
+
+
+// Creating a buffered channel
+// make(chan int, 4)
+// why use buffered channel? to unblock the producer as soon as possible
+// however you need to know the number of messages up front
+
+
+//var c1, c2 <-chan interface{}
+//var c3 chan<- interface{}
+//select {
+//case <- c1:
+//// Do something
+//case <- c2:
+//// Do something
+//case c3<- struct{}{}:
+//// Do something
+//}
+
 func sender(ch chan<- interface{}, wg * sync.WaitGroup){
 	defer wg.Done()
 	ch <- "hello"
@@ -15,7 +39,12 @@ func sender(ch chan<- interface{}, wg * sync.WaitGroup){
 
 func receiver(ch <-chan interface{}, wg * sync.WaitGroup){
 	defer wg.Done()
-	fmt.Println(<-ch)
+	str, ok := <-ch
+	if !ok{
+		fmt.Println("channel is closed")
+		return
+	}
+	fmt.Println(str)
 }
 
 func main(){
