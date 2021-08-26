@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"sync"
-
-	"github.com/aws/aws-sdk-go/aws"
 )
 
 var prPool = sync.Pool{
@@ -29,7 +27,7 @@ type DBConnection struct{
 func New() * DBConnection{
 	return &DBConnection{
 		db:     &DBConnection{},
-		config: aws.Config{},
+		config: Config{},
 	}
 }
 
