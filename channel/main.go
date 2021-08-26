@@ -22,6 +22,7 @@ func main(){
 	// bidirectional channel
 	var wg sync.WaitGroup
 	ch = make(chan interface{})
+	defer close(ch)
 	for range []int{1, 2, 3, 4}{
 		wg.Add(2)
 		go sender(ch, &wg)
