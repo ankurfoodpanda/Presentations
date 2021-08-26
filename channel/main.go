@@ -31,6 +31,24 @@ var ch chan interface{}
 //// Do something
 //}
 
+// timeout if always blocking
+//var c <-chan int
+//select {
+//case <-c: 1
+//case <-time.After(1 * time.Second):
+//fmt.Println("Timed out.")
+//}
+
+// doing something in between
+//start := time.Now()
+//var c1, c2 <-chan int
+//select {
+//case <-c1:
+//case <-c2:
+//default:
+//fmt.Printf("In default after %v\n\n", time.Since(start))
+//}
+
 func sender(ch chan<- interface{}, wg * sync.WaitGroup){
 	defer wg.Done()
 	ch <- "hello"
